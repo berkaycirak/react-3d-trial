@@ -8,6 +8,7 @@ import FloatingIsland from '../models/FloatingIsland';
 import * as THREE from 'three';
 import Portal from '../models/Portal';
 import Rocks from '../models/Rocks';
+import Trees from '../models/Trees';
 
 function SceneContainer() {
 	return (
@@ -17,10 +18,6 @@ function SceneContainer() {
 				background={false}
 				files={'/textures/envmap.hdr'}
 			/>
-			<ambientLight intensity={100} color={'#ffffff'} />
-			<color attach='background' args={['#101010']} />
-
-			{/* <directionalLight intensity={1} position={[0, -5, 0]} /> */}
 
 			<PerspectiveCamera
 				makeDefault
@@ -35,6 +32,7 @@ function SceneContainer() {
 			<FloatingIsland />
 			<Rocks />
 			<Portal />
+			<Trees />
 		</Suspense>
 	);
 }
