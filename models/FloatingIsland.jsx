@@ -1,6 +1,6 @@
 import { useLoader } from '@react-three/fiber';
 import { useEffect } from 'react';
-import { BufferAttribute, Color } from 'three';
+import { BufferAttribute, Color, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 function FloatingIsland() {
