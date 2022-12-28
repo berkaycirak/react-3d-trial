@@ -9,30 +9,21 @@ import * as THREE from 'three';
 import Portal from '../models/Portal';
 import Rocks from '../models/Rocks';
 import Trees from '../models/Trees';
+import NFTCarousel from '../models/NFTCarousel';
 
 function SceneContainer() {
 	return (
 		<Suspense>
-			<Environment background={'only'} files={'/textures/bg.hdr'} />
-			<Environment
-				background={false}
-				files={'/textures/envmap.hdr'}
-			/>
+			<ambientLight color={'#ffffff'} intensity={1} />
+			{/* Camera */}
+			<PerspectiveCamera fov={35} makeDefault position={[5, 0, 10]} />
 
-			<PerspectiveCamera
-				makeDefault
-				fov={50}
-				position={[-1.75, 10.85, 20.35]}
-			/>
-			<OrbitControls
-				target={[1, 5, 0]}
+			{/* <OrbitControls
+				target={[1, 7, 0]}
 				maxPolarAngle={Math.PI * 0.5}
-			/>
+			/> */}
 
-			<FloatingIsland />
-			<Rocks />
-			<Portal />
-			<Trees />
+			<NFTCarousel />
 		</Suspense>
 	);
 }

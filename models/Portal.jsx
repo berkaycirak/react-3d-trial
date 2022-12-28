@@ -1,5 +1,5 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import {
 	DoubleSide,
 	EquirectangularReflectionMapping,
@@ -9,6 +9,7 @@ import {
 	WebGLRenderTarget,
 	AlwaysStencilFunc,
 	ReplaceStencilOp,
+	Color,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { FillQuad } from './FillQuad';
@@ -22,24 +23,21 @@ scene.background = new TextureLoader().load(
 	}
 );
 
-const target = new WebGLRenderTarget(
-	window.innerWidth,
-	window.innerHeight,
-	{
-		stencilBuffer: false,
-	}
-);
+const target = new WebGLRenderTarget(500, 600, {
+	stencilBuffer: false,
+});
 
 window.addEventListener('resize', () => {
 	target.setSize(window.innerHeight, window.innerHeight);
 });
 
 function Portal() {
-	const model = useLoader(GLTFLoader, 'glb/portal.glb');
+	const model = useLoader(GLTFLoader, 'glb/portal_frame.glb');
 	const mask = useLoader(GLTFLoader, 'glb/portal_mask.glb');
 
 	useFrame((state) => {
 		state.gl.setRenderTarget(target);
+
 		state.gl.render(scene, state.camera);
 		state.gl.setRenderTarget(null);
 	});
@@ -47,11 +45,11 @@ function Portal() {
 	useEffect(() => {
 		if (!model) return;
 		let mesh = model.scene.children[0];
-		mesh.material.envMapIntensity = 3.5;
 
 		let maskMesh = mask.scene.children[0];
+		// This makes object visible in both sides.
 		maskMesh.material.side = DoubleSide;
-		maskMesh.material.transparent = false;
+
 		maskMesh.material.stencilWrite = true;
 		maskMesh.material.stencilRef = 1;
 		maskMesh.material.stencilFunc = AlwaysStencilFunc;
@@ -60,8 +58,17 @@ function Portal() {
 
 	return (
 		<>
-			<primitive object={model.scene} />
-			<primitive object={mask.scene} />
+			<primitive
+				object={model.scene}
+				scale={0.015}
+				position={[1.2, 6, -4]}
+			/>
+
+			<primitive
+				object={mask.scene}
+				position={[0.07, 0.5, 0]}
+				scale={[1.05, 1.01, 1.01]}
+			/>
 			<FillQuad map={target.texture} maskId={1} />
 		</>
 	);
