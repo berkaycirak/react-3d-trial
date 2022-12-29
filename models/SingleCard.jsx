@@ -1,10 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useGLTF, useAnimations, useCursor } from '@react-three/drei';
 import { degToRad } from 'three/src/math/MathUtils';
-import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
-import { useDrag } from '@use-gesture/react';
-import useUIStore from '../store/UIStore';
 
 export function SingleCardModel(props) {
 	const group = useRef();
