@@ -10,7 +10,7 @@ function App() {
 		<>
 			<div className='h-screen relative'>
 				{/* <div className='h-[350px] w-[300px] z-[99] top-[50%] -translate-y-[50%] left-[50%] -translate-x-[50%] border absolute'></div> */}
-				<Canvas>
+				<Canvas camera={{ position: [0, 5, 50], fov: 30 }}>
 					<SceneContainer />
 				</Canvas>
 			</div>

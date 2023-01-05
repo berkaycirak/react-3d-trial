@@ -4,34 +4,28 @@ import {
 	PerspectiveCamera,
 } from '@react-three/drei';
 import { Suspense } from 'react';
-import FloatingIsland from '../models/FloatingIsland';
-import * as THREE from 'three';
-import Portal from '../models/Portal';
-import Rocks from '../models/Rocks';
-import Trees from '../models/Trees';
-import NFTCarousel from '../models/NFTCarousel';
+import Electron from '../models/Electron';
 import Video from '../models/Video';
+import ReflectivePlane from '../models/ReflectivePlane';
 
 function SceneContainer() {
 	return (
 		<Suspense>
 			<ambientLight color={'#ffffff'} intensity={1} />
+			<directionalLight intensity={0.5} />
 			{/* Camera */}
-			<PerspectiveCamera fov={35} makeDefault position={[5, 0, 20]} />
 
 			<OrbitControls
-				target={[1, 0, 0]}
-				maxPolarAngle={Math.PI * 0.5}
+				makeDefault
+				autoRotate
+				autoRotateSpeed={0.9}
+				minPolarAngle={Math.PI / 2.5}
+				maxPolarAngle={Math.PI / 2.5}
 			/>
 			<Video />
-
-			{/* <NFTCarousel /> */}
-			<Environment background>
-				<mesh scale={100}>
-					<sphereGeometry args={[1, 64, 64]} />
-					<meshBasicMaterial side={THREE.BackSide} color='#000000' />
-				</mesh>
-			</Environment>
+			<ReflectivePlane />
+			<Electron speed={8} />
+			<Environment background preset='sunset' blur={0.8} />
 		</Suspense>
 	);
 }

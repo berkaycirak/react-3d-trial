@@ -17,7 +17,7 @@ function Video() {
 	useEffect(() => void video.play(), [video]);
 
 	return (
-		<mesh scale={scale}>
+		<mesh scale={scale} position={[0, 2, 0]}>
 			<planeGeometry />
 			<meshBasicMaterial side={THREE.DoubleSide}>
 				<videoTexture
