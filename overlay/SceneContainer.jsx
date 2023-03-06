@@ -1,31 +1,43 @@
 import {
 	Environment,
 	OrbitControls,
-	PerspectiveCamera,
+	ScrollControls,
+	useScroll,
+	Html,
 } from '@react-three/drei';
-import { Suspense } from 'react';
-import Electron from '../models/Electron';
-import Video from '../models/Video';
-import ReflectivePlane from '../models/ReflectivePlane';
+import React from 'react';
+import { useFrame } from '@react-three/fiber';
+import { Suspense, forwardRef, useRef } from 'react';
+import Sphere from '../models/Sphere';
+import { Physics } from '@react-three/cannon';
+import Floor from '../models/Floor';
+import BoxTrigger from '../models/BoxTrigger';
+import { useState } from 'react';
 
 function SceneContainer() {
+	const [bg, setBg] = useState('white');
 	return (
 		<Suspense>
-			<ambientLight color={'#ffffff'} intensity={1} />
-			<directionalLight intensity={0.5} />
-			{/* Camera */}
-
-			<OrbitControls
-				makeDefault
-				autoRotate
-				autoRotateSpeed={0.9}
-				minPolarAngle={Math.PI / 2.5}
-				maxPolarAngle={Math.PI / 2.5}
-			/>
-			<Video />
-			<ReflectivePlane />
-			<Electron speed={8} />
-			<Environment background preset='sunset' blur={0.8} />
+			<ambientLight />
+			<Physics>
+				<Sphere />
+				<Floor />
+				<BoxTrigger
+					args={[4, 1, 4]}
+					onCollide={(e) => {
+						setBg('green');
+					}}
+					position={[-3, 0, 0]}
+					bg={bg}
+				/>
+				<BoxTrigger
+					args={[4, 1, 4]}
+					onCollide={(e) => {
+						console.log(e.body);
+					}}
+					position={[3, 0, 0]}
+				/>
+			</Physics>
 		</Suspense>
 	);
 }
